@@ -1,0 +1,843 @@
+{
+	"info": {
+		"_postman_id": "5ac39edb-4f33-4cb9-8c86-88f129b475d3",
+		"name": "1. Admin. Create Test User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40892616"
+	},
+	"item": [
+		{
+			"name": "auth.admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.collectionVariables.set(\"token\", jsonData.token)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "GB202310991177",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "cc335a7ccd",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://test-stand.gb.ru/gateway/login",
+					"protocol": "https",
+					"host": [
+						"test-stand",
+						"gb",
+						"ru"
+					],
+					"path": [
+						"gateway",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create.testuser = all fields",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Получаем текущее значение переменной user из коллекции переменных\r",
+							"let currentUserValue = pm.collectionVariables.get(\"user\");\r",
+							"\r",
+							"// Проверяем, существует ли переменная user в коллекции\r",
+							"if (!currentUserValue || !currentUserValue.startsWith('test_user')) {\r",
+							"    // Если переменная еще не установлена или не начинается с 'test_user',\r",
+							"    // устанавливаем ее равной 'test_user1'\r",
+							"    currentUserValue = 'test_user1';\r",
+							"} else {\r",
+							"    // Извлекаем индекс из текущей переменной\r",
+							"    let index = parseInt(currentUserValue.substring(9), 10);\r",
+							"\r",
+							"    // Увеличиваем индекс на 1\r",
+							"    index++;\r",
+							"    currentUserValue = `test_user${index}`;\r",
+							"}\r",
+							"\r",
+							"// Устанавливаем новое значение переменной user в коллекцию переменных\r",
+							"pm.collectionVariables.set(\"user\", currentUserValue);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "postman-cloud:///1efd258e-3cd6-4ae0-a6c6-3b41d4216e76"
+						},
+						{
+							"key": "firstName",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "lastName",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "89999999999",
+							"type": "text"
+						},
+						{
+							"key": "sex",
+							"value": "male",
+							"type": "text"
+						},
+						{
+							"key": "birthDate",
+							"value": "2005-01-23",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://test-stand.gb.ru/gateway/dummies",
+					"protocol": "https",
+					"host": [
+						"test-stand",
+						"gb",
+						"ru"
+					],
+					"path": [
+						"gateway",
+						"dummies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create.testuser = None image",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Получаем текущее значение переменной user из коллекции переменных\r",
+							"let currentUserValue = pm.collectionVariables.get(\"user\");\r",
+							"\r",
+							"// Проверяем, существует ли переменная user в коллекции\r",
+							"if (!currentUserValue || !currentUserValue.startsWith('test_user')) {\r",
+							"    // Если переменная еще не установлена или не начинается с 'test_user',\r",
+							"    // устанавливаем ее равной 'test_user1'\r",
+							"    currentUserValue = 'test_user1';\r",
+							"} else {\r",
+							"    // Извлекаем индекс из текущей переменной\r",
+							"    let index = parseInt(currentUserValue.substring(9), 10);\r",
+							"\r",
+							"    // Увеличиваем индекс на 1\r",
+							"    index++;\r",
+							"\r",
+							"    // Формируем новую строку 'test_userX', где X - увеличенный индекс\r",
+							"    currentUserValue = `test_user${index}`;\r",
+							"}\r",
+							"\r",
+							"// Устанавливаем новое значение переменной user в коллекцию переменных\r",
+							"pm.collectionVariables.set(\"user\", currentUserValue);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "firstName",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "lastName",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "89999999999",
+							"type": "text"
+						},
+						{
+							"key": "sex",
+							"value": "male",
+							"type": "text"
+						},
+						{
+							"key": "birthDate",
+							"value": "2005-01-23",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://test-stand.gb.ru/gateway/dummies",
+					"protocol": "https",
+					"host": [
+						"test-stand",
+						"gb",
+						"ru"
+					],
+					"path": [
+						"gateway",
+						"dummies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create.testuser = None firstName",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Получаем текущее значение переменной user из коллекции переменных\r",
+							"let currentUserValue = pm.collectionVariables.get(\"user\");\r",
+							"\r",
+							"// Проверяем, существует ли переменная user в коллекции\r",
+							"if (!currentUserValue || !currentUserValue.startsWith('test_user')) {\r",
+							"    // Если переменная еще не установлена или не начинается с 'test_user',\r",
+							"    // устанавливаем ее равной 'test_user1'\r",
+							"    currentUserValue = 'test_user1';\r",
+							"} else {\r",
+							"    // Извлекаем индекс из текущей переменной\r",
+							"    let index = parseInt(currentUserValue.substring(9), 10);\r",
+							"\r",
+							"    // Увеличиваем индекс на 1\r",
+							"    index++;\r",
+							"    currentUserValue = `test_user${index}`;\r",
+							"}\r",
+							"\r",
+							"// Устанавливаем новое значение переменной user в коллекцию переменных\r",
+							"pm.collectionVariables.set(\"user\", currentUserValue);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "postman-cloud:///1efd258e-3cd6-4ae0-a6c6-3b41d4216e76"
+						},
+						{
+							"key": "lastName",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "89999999999",
+							"type": "text"
+						},
+						{
+							"key": "sex",
+							"value": "male",
+							"type": "text"
+						},
+						{
+							"key": "birthDate",
+							"value": "2005-01-23",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://test-stand.gb.ru/gateway/dummies",
+					"protocol": "https",
+					"host": [
+						"test-stand",
+						"gb",
+						"ru"
+					],
+					"path": [
+						"gateway",
+						"dummies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create.testuser = None lastName",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Получаем текущее значение переменной user из коллекции переменных\r",
+							"let currentUserValue = pm.collectionVariables.get(\"user\");\r",
+							"\r",
+							"// Проверяем, существует ли переменная user в коллекции\r",
+							"if (!currentUserValue || !currentUserValue.startsWith('test_user')) {\r",
+							"    // Если переменная еще не установлена или не начинается с 'test_user',\r",
+							"    // устанавливаем ее равной 'test_user1'\r",
+							"    currentUserValue = 'test_user1';\r",
+							"} else {\r",
+							"    // Извлекаем индекс из текущей переменной\r",
+							"    let index = parseInt(currentUserValue.substring(9), 10);\r",
+							"\r",
+							"    // Увеличиваем индекс на 1\r",
+							"    index++;\r",
+							"    currentUserValue = `test_user${index}`;\r",
+							"}\r",
+							"\r",
+							"// Устанавливаем новое значение переменной user в коллекцию переменных\r",
+							"pm.collectionVariables.set(\"user\", currentUserValue);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "postman-cloud:///1efd258e-3cd6-4ae0-a6c6-3b41d4216e76"
+						},
+						{
+							"key": "firstName",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "89999999999",
+							"type": "text"
+						},
+						{
+							"key": "sex",
+							"value": "male",
+							"type": "text"
+						},
+						{
+							"key": "birthDate",
+							"value": "2005-01-23",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://test-stand.gb.ru/gateway/dummies",
+					"protocol": "https",
+					"host": [
+						"test-stand",
+						"gb",
+						"ru"
+					],
+					"path": [
+						"gateway",
+						"dummies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create.testuser = None birthDate",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Получаем текущее значение переменной user из коллекции переменных\r",
+							"let currentUserValue = pm.collectionVariables.get(\"user\");\r",
+							"\r",
+							"// Проверяем, существует ли переменная user в коллекции\r",
+							"if (!currentUserValue || !currentUserValue.startsWith('test_user')) {\r",
+							"    // Если переменная еще не установлена или не начинается с 'test_user',\r",
+							"    // устанавливаем ее равной 'test_user1'\r",
+							"    currentUserValue = 'test_user1';\r",
+							"} else {\r",
+							"    // Извлекаем индекс из текущей переменной\r",
+							"    let index = parseInt(currentUserValue.substring(9), 10);\r",
+							"\r",
+							"    // Увеличиваем индекс на 1\r",
+							"    index++;\r",
+							"    currentUserValue = `test_user${index}`;\r",
+							"}\r",
+							"\r",
+							"// Устанавливаем новое значение переменной user в коллекцию переменных\r",
+							"pm.collectionVariables.set(\"user\", currentUserValue);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "postman-cloud:///1efd258e-3cd6-4ae0-a6c6-3b41d4216e76"
+						},
+						{
+							"key": "firstName",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "lastName",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "89999999999",
+							"type": "text"
+						},
+						{
+							"key": "sex",
+							"value": "male",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://test-stand.gb.ru/gateway/dummies",
+					"protocol": "https",
+					"host": [
+						"test-stand",
+						"gb",
+						"ru"
+					],
+					"path": [
+						"gateway",
+						"dummies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create.testuser = None username",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Получаем текущее значение переменной user из коллекции переменных\r",
+							"let currentUserValue = pm.collectionVariables.get(\"user\");\r",
+							"\r",
+							"// Проверяем, существует ли переменная user в коллекции\r",
+							"if (!currentUserValue || !currentUserValue.startsWith('test_user')) {\r",
+							"    // Если переменная еще не установлена или не начинается с 'test_user',\r",
+							"    // устанавливаем ее равной 'test_user1'\r",
+							"    currentUserValue = 'test_user1';\r",
+							"} else {\r",
+							"    // Извлекаем индекс из текущей переменной\r",
+							"    let index = parseInt(currentUserValue.substring(9), 10);\r",
+							"\r",
+							"    // Увеличиваем индекс на 1\r",
+							"    index++;\r",
+							"    currentUserValue = `test_user${index}`;\r",
+							"}\r",
+							"\r",
+							"// Устанавливаем новое значение переменной user в коллекцию переменных\r",
+							"pm.collectionVariables.set(\"user\", currentUserValue);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "postman-cloud:///1efd258e-3cd6-4ae0-a6c6-3b41d4216e76"
+						},
+						{
+							"key": "firstName",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "lastName",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "89999999999",
+							"type": "text"
+						},
+						{
+							"key": "sex",
+							"value": "male",
+							"type": "text"
+						},
+						{
+							"key": "birthDate",
+							"value": "2005-01-23",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://test-stand.gb.ru/gateway/dummies",
+					"protocol": "https",
+					"host": [
+						"test-stand",
+						"gb",
+						"ru"
+					],
+					"path": [
+						"gateway",
+						"dummies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create.testuser = Nane femele",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Получаем текущее значение переменной user из коллекции переменных\r",
+							"let currentUserValue = pm.collectionVariables.get(\"user\");\r",
+							"\r",
+							"// Проверяем, существует ли переменная user в коллекции\r",
+							"if (!currentUserValue || !currentUserValue.startsWith('test_user')) {\r",
+							"    // Если переменная еще не установлена или не начинается с 'test_user',\r",
+							"    // устанавливаем ее равной 'test_user1'\r",
+							"    currentUserValue = 'test_user1';\r",
+							"} else {\r",
+							"    // Извлекаем индекс из текущей переменной\r",
+							"    let index = parseInt(currentUserValue.substring(9), 10);\r",
+							"\r",
+							"    // Увеличиваем индекс на 1\r",
+							"    index++;\r",
+							"    currentUserValue = `test_user${index}`;\r",
+							"}\r",
+							"\r",
+							"// Устанавливаем новое значение переменной user в коллекцию переменных\r",
+							"pm.collectionVariables.set(\"user\", currentUserValue);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-Token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "postman-cloud:///1efd258e-3cd6-4ae0-a6c6-3b41d4216e76"
+						},
+						{
+							"key": "firstName",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "lastName",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "89999999999",
+							"type": "text"
+						},
+						{
+							"key": "birthDate",
+							"value": "2005-01-23",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://test-stand.gb.ru/gateway/dummies",
+					"protocol": "https",
+					"host": [
+						"test-stand",
+						"gb",
+						"ru"
+					],
+					"path": [
+						"gateway",
+						"dummies"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "user",
+			"value": "user0",
+			"type": "string"
+		}
+	]
+}
